@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="style.css" rel="stylesheet" />
+
+    <title>Learning HTML & CSS</title>
+    <style>
+      body {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>JavaScript is fun, but so is HTML & CSS!</h1>
+
+    <!-- anchor tags are inline elements. h2 element is called block elements. Because as we see here, this heading is not in line
+      with the text of the previous element. It created a new line -->
+    <p class="first">
+      You can learn JavaScript without HTML and CSS, but for DOM manipulation
+      it's useful to have some basic ideas of HTML & CSS. You can learn more
+      about it
+      <a href="https://www.udemy.com/user/jonasschmedtmann/">on Udemy</a>.
+    </p>
+
+    <h2>Another heading</h2>
+    <p class="second">Just another paragraph</p>
+
+    <!-- image tag doesn't have a closing tag -->
+    <!-- different element have different attributes like href is not going to do anything on image tag -->
+    <img
+      id="course-image"
+      src="https://img-a.udemycdn.com/course/480x270/437398_46c3_9.jpg"
+    />
+
+    <form id="your-name">
+      <h2>Your name here</h2>
+      <p class="first">Please fill in this form :)</p>
+
+      <input type="text" placeholder="Your name" />
+      <button>OK!</button>
+    </form>
+  </body>
+</html>
+
+<!--
+Box model defines how elements are displayed on a webpage and also how they are sized.
+
+So according to the box model, each and every element on a webpage can be seen as a rectangular box and each box can have a width,
+a height, padding, margins and a border.
+
+And we can specify all these using CSS properties, but note that they are all optional. So there can be boxes with no margins
+or no paddings or no border at all.
+
+first the content of a box is where all the text images and other content that we specify goes.
+
+We can easily define its height and with using the corresponding CSS properties.
+
+Next, the padding is a transparent area around the content but still inside of the box.
+-->
