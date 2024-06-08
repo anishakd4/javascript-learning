@@ -1,3 +1,11 @@
+/* when we specify 0 we don;t have to specify unit */
+
+/* border-box: essentially what this does is that it will include paddings and borders into the width or the height that we specify for an element.
+
+So for example, if we specify the width of an element to 100 pixels, and then add a padding of 20 pixels on each side, then 100 plus 20 plus 20 would be a total width of 140 pixels,
+
+so to fix this, we use box sizing set to border box. And so in this case, if we specify the width to 100 pixels, it will always be 100 pixels no matter how much the padding, okay.
+*/
 * {
   margin: 0;
   padding: 0;
