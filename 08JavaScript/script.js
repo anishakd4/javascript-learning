@@ -60,4 +60,8 @@ However the engine alone is not enough. In order to work properly, we also need 
 
 Next a typical JavaScript runtime also includes a so called callback queue. This is a data structure that contains all the callback functions that are ready to be executed. For example we attach event handler functions to DOM elements like a button to react to certain events, right? And these event handler functions are also called callback functions okay. So as the event happens, for example a click, the callback function will be called.
 
+So the first thing that actually happens after the event is that the callback function is put into the callback queue. Then when the stack is empty the callback function is passed to the stack so that it can be executed.
+
+JavaScript can exist outside of browsers, for example, in Node.js. And so here is what the node JS JavaScript runtime looks like. It's pretty similar, but since we don't have a browser of course, we can't have the web APIs because it's the browser who provides these. Instead we have multiple C ++ bindings and a so called thread pool. Different JavaScript runtimes do exist.
+
 */
