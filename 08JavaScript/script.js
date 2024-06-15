@@ -64,4 +64,100 @@ So the first thing that actually happens after the event is that the callback fu
 
 JavaScript can exist outside of browsers, for example, in Node.js. And so here is what the node JS JavaScript runtime looks like. It's pretty similar, but since we don't have a browser of course, we can't have the web APIs because it's the browser who provides these. Instead we have multiple C ++ bindings and a so called thread pool. Different JavaScript runtimes do exist.
 
+
+EXECUTION CONTEXT:
+
+So the code is now ready to be executed. What happens then, is that a so-called global execution context is created for the top-level code. And top-level code is basically code that is not inside any function. In the beginning only the code that is outside of functions will be executed. Functions should only be executed when they are called.
+
+So, JavaScript code always runs inside an execution context.
+
+in any JavaScript project, no matter how large it is, there is only ever one global execution context. It's always there as the default context, and it's where top-level code will execute.
+
+once this first code, so the top-level of code is finished, functions finally start to execute as well. And here is how that works. For each and every function call, and you execution context will be created containing all the information that is necessary to run exactly that function.
+
+All these execution contexts together, make up the call stack. Now, when all functions are done executing, the engine will basically keep waiting for callback functions to arrive so that it can execute these. For example, a callback function associated with a click event. And it's the event loop who provides these new callback functions
+
+Execution contexts belonging to arrow functions, do not get their own arguments keyword, nor do they get the this keyword. Instead, they can use the arguments object, and the this keyword from their closest regular function parent.
+
+CREATION PHASE:
+
+we will get one global execution context and one for each function. So one for the first function, and one for the second function. In the global context, we have the name variable declaration, the first and second function declarations, as well as the X variable declaration.
+
+For the functions, the variable environment will literally contain all the code of a particular function.
+
+Now the value of X is marked as unknown here, because this value is the result of the first function that we didn't run yet. now in the first function, we have the a variable set to 1 and the b variable which once again requires a function call in order to become known. Finally, the variable environment of the second function, contains the C variable set to 2, and since this is a regular function, so not an arrow function, it also has the arguments object. this object is an array, which contains all the arguments that were passed into the function when it was called. In this case, as you can see, that's 7 and 9.
+
+
+Well, it's simple because this is an extremely small amount of code. But now imagine there are hundreds of execution contexts for hundreds of functions. How will the engine keep track of the order in which functions we're called? And how will it know where it currently is in the execution? Well, that's where the call stack finally comes in.
+
+CALL STACK:
+
+But what actually is the call stack? Well, it's basically a place where execution contexts get stacked on top of each other, in order to keep track of where we are in the programs execution.
+
+So the execution context that is on top of the stack, is the one that is currently running. And when it's finished running, it will be removed from the stack, and execution will go back to the previous execution context.
+
+So, once the code is compiled, top-level code will start execution. And then as we learned in the beginning of the lecture, a global execution context will be created for the top-level of code, right? So this is where all the code outside of any function will be executed. This execution context will be put in the call stack. And since this context is now at the top of the stack, it is the one where the code is currently being executed.
+
+So, let's continue now with this execution. So here, there is a simple variable declaration. And then the first and the second functions are declared. So nothing fancy, but that's just how normal top-level code gets executed.
+
+But then, in the last line is where things start to get interesting. Here, we declare the X variable, with the value that is gonna be returned from calling the first function. And so let's actually call that function.
+
+Now what happens immediately when a function is called? Well, it gets its own execution context so that it can run the code that's inside its body. And what happens to the context? Well, again it is put in the call stack, on top of the current context, and so it's now the new current execution context.
+
+So, let's continue. So we have yet another simple variable declaration here, and this variable will of course be defined in the variable environment of the current execution context. Then right in the next line, we have another function call. So, let's call that function and move there. And as you guessed a new execution context was created right away for this second function. And once more, it is pushed onto the call stack and becomes the new active context.
+
+Now what's important to note here is that the execution of the first function has now been paused, okay? So again, we are running the second function now and in the meantime, no other function is being executed. The first function stopped at this point where the second function was called and will only continue as soon as this second function returns. And it has to work this way because remember, JavaScript has only one thread of execution. And so it can only do one thing at a time.
+
+Now, moving to the next line, we have a return statement meaning that the function will finish its execution. So, what does that mean for the call stack? Well, it basically means that the function's execution context, will be popped off the stack and disappear from the computer's memory.Actually the popped off execution context might keep living in memory.
+
+The previous execution context, will now be back to being the active execution context again. And so let's also go back to where we were before in the code. And I hope that by now, you start to see how the call stack really keeps track of the order of execution here. Without the call stack, how would the engine know which function was being executed before? It wouldn't know where to go back to, right?
+
+finally this first function also returns. And so here the same as before happens. So the current execution context gets popped off the stack, and the previous context is now the current context where code is executed.
+
+So the current execution context gets popped off the stack, and the previous context is now the current context where code is executed. In this case, we're back to the global execution context and the line of code where the first function was first called. So here, the return value is finally assigned to X and the execution is finished.
+
+Now the program will now actually stay in this state for forever until it is eventually really finished. And that only happens like when we close the browser tab, or the browser window. Only when the program is really finished like this, is when the global execution context is also popped off the stack.
+
+SCOPE AND SCOPE CHAIN:
+
+So scoping controls how our program's variables are organized and accessed by the JavaScript engine.
+
+Now in JavaScript, we have something called lexical scoping. And lexical scoping means that the way variables are organized and accessed is entirely controlled by the placement of functions and of blocks in the programs code.
+
+For example, a function that is written inside another function has access to the variables of the parent function. So again, variable scoping is influenced by where exactly we write our functions and code blocks.
+
+Scope is the space or environment in which a certain variable is declared. And in the case of functions, that's essentially the variable environment which is stored in the functions execution context.
+
+So if now you're asking yourself, what's the difference between scope and variable environment? Then the answer is that for the case of functions, it's basically the same.
+
+Now in JavaScript, we have the global scope, function scope, and block scope.
+
+So the scope of a variable is basically the entire region of our code, where a certain variable can be accessed. And remember, scope is the place in our code where variables are declared. And when I say variables, the exact same thing is true for functions as well. Because in the end, functions are just values that are stored in variables.
+
+So first, the global scope is once more for top level code. So this is for variables that are declared outside of any function or block. These variables will be accessible everywhere in our program, in all functions and all blocks. So really, everywhere.
+
+Next, each and every function creates a scope. And the variables declared inside that function scope are only accessible inside that function. This is also called a local scope.
+
+Now traditionally, only functions used to create scopes in JavaScript. But starting in ES6, blocks also creates scopes now. And with blocks,
+
+But starting in ES6, blocks also creates scopes now. And with blocks, we mean everything that is between curly braces, such as the block of an if statement or a for loop. So just like with functions, variables declared inside a block are only accessible inside that block and not outside of it. 
+
+Now, the big difference is that block scopes only apply to variables declared with let or const. So if I declared a variable using var in this block, then that variable would actually still be accessible outside of the block, and would be scoped to the current function or to the global scope.
+
+In ES5 and before, we only had global scope and function scope And that's why ES5 variables declared with var, only care about functions, but not about blocks. They simply ignore them.
+
+Finally, also starting in ES6, all functions are now also block scoped, at least in strict mode, which you should always be using anyway. And just like with let and const variables, this means that functions declared inside a block are only accessible inside that block, okay?
+
+Remember that starting with ES6, not only functions create scopes, but also blocks. However, these scopes only work for the ES6 variable types. So for let and const variables. That's why the only variable that's in the scope is the decade variable.
+
+if(true){
+    let m = 1;
+    const n = 0;
+    var p = 2;
+}
+
+console.log({m}); //error
+console.log({n}); //error
+console.log({p}); //OK
+
 */
